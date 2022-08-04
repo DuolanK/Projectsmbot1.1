@@ -4,9 +4,9 @@ from utils.db_api.db_gino import db
 from utils.db_api.schemas.user import User
 
 
-async def add_user(user_id: int, full_name: str, username: str, status: str):
+async def add_user(user_id: int, username: str, status: str):
     try:
-        user = User(user_id=user_id, full_name=full_name, username=username, status=status)
+        user = User(user_id=user_id, username=username, status=status)
         await user.create()
     except UniqueViolationError:
         print('user was not added')
