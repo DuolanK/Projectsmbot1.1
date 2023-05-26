@@ -4,6 +4,6 @@ ikb_menu = InlineKeyboardMarkup(row_width=2,
                                 inline_keyboard=[
                                     [
                                         InlineKeyboardButton(text='Message', callback_data='Message'),
-                                        InlineKeyboardButton(text='link', url='https://youtube/')
+                                        InlineKeyboardButton(text='link', url='https://youtube.com')
                                     ]
                                 ])

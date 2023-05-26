@@ -34,3 +34,5 @@ async def get_ban(message:types.Message):
     await message.answer('youre NOT banned lol')
 
 
+
+

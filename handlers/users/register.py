@@ -24,10 +24,10 @@ async def state1(message: types.Message, state: FSMContext):
 @dp.message_handler(state=register.test2)
 async def state2(message:types.Message, state: FSMContext):
     answer = message.text
-
     await state.update_data(test2=answer)
     name = await state.get_data('test1')
     table = await state.get_data('test2')
     await message.answer(f'registration complete'
                          f'your name {name}\n'
                          f'your table {table}\n')
+    await state.finish()
