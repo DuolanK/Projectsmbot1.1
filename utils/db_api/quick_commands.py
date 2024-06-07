@@ -2,8 +2,8 @@ from asyncpg import UniqueViolationError
 
 from utils.db_api.db_gino import db
 from utils.db_api.schemas.user import User
-
-
+from utils.db_api.schemas.menu import MenuItem
+from utils.db_api.schemas.cart import CartItem
 async def add_user(user_id: int, username: str, status: str):
     try:
         user = User(user_id=user_id, username=username, status=status)
@@ -28,3 +28,27 @@ async def select_user(user_id):
 async def update_status(user_id, status):
     user = await select_user(user_id)
     await user.update(status=status).apply()
+
+
+async def select_menu():
+    return await MenuItem.query.where(MenuItem.status == True).gino.all()
+
+async def select_menu_item(item_id: int):
+    return await MenuItem.query.where(MenuItem.id == item_id).gino.first()
+
+async def add_menu_item(name: str, description: str, price: str, image: str, status: bool):
+    new_item = MenuItem(name=name, description=description, price=price, image=image, status=status)
+    await new_item.create()
+
+async def delete_menu_item(item_id: int):
+    item = await select_menu_item(item_id)
+    if item:
+        await item.delete()
+
+# Новые функции для работы с корзиной
+async def add_to_cart(user_id: int, item_id: int):
+    new_cart_item = CartItem(user_id=user_id, item_id=item_id)
+    await new_cart_item.create()
+
+async def get_cart_items(user_id: int):
+    return await CartItem.query.where(CartItem.user_id == user_id).gino.all()

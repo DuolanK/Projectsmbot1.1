@@ -19,12 +19,6 @@ async def buttons(message: types.Message):
 
 
 
-@dp.message_handler(text='10')
-async def message_handler(message: types.Message):
-    input_text = message.text
-    async generate_response_locally(input_text)  # Замените на вызов вашего локального сервера
-    await message.reply(response)
-
 
 def generate_response_locally(input_text):
     print('чтото живо')
