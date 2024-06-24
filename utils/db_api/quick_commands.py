@@ -11,6 +11,12 @@ async def add_user(user_id: int, username: str, status: str):
     except UniqueViolationError:
         print('user was not added')
 
+async def register_user(user_id: int, name: str, username: str, birth: str, sex: bool, geo: str, status: str):
+    try:
+        user = User(user_id=user_id, name=name, username=username, birth=birth, sex=sex, geo=geo, status=status)
+        await user.create()
+    except UniqueViolationError:
+        print('user was not registered')
 
 async def select_all_users():
     users = await User.query.gino.all()
