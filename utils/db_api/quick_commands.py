@@ -1,5 +1,5 @@
 from asyncpg import UniqueViolationError
-
+import logging
 from utils.db_api.db_gino import db
 from utils.db_api.schemas.user import User
 from utils.db_api.schemas.menu import MenuItem
@@ -11,13 +11,24 @@ async def add_user(user_id: int, username: str, status: str):
     except UniqueViolationError:
         print('user was not added')
 
-async def register_user(user_id: int, name: str, username: str, birth: str, sex: bool, geo: str, status: str):
+async def register_user(user_id: int, username: str, name: str, birth: str, sex: bool, geo: str, time: str):
     try:
-        user = User(user_id=user_id, name=name, username=username, birth=birth, sex=sex, geo=geo, status=status)
-        await user.create()
+        logging.info(f'Registering user with id {user_id}, username {username}, name {name}, birth {birth}, sex {sex}, geo {geo}, time {time}')
+        new_user = User(
+            user_id=user_id,
+            username=username,
+            name=name,
+            birth=birth,
+            sex=sex,
+            geo=geo,
+            time=time,
+            status="active"  # или другой статус по умолчанию
+        )
+        await new_user.create()
     except UniqueViolationError:
-        print('user was not registered')
-
+        logging.error('User was not added: UniqueViolationError')
+    except Exception as e:
+        logging.error(f'User was not added: {e}')
 async def select_all_users():
     users = await User.query.gino.all()
     return users
