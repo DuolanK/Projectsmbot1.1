@@ -19,14 +19,14 @@ def generate_response_from_openai(prompt):
         {"role": "system", "content": "You are a helpful assistant."},
         {"role": "user", "content": prompt}
     ],
-    max_tokens=150)
+    max_tokens=800)
     generated_text = response.choices[0].message.content.strip()
     return generated_text
 
 # Обработчик для команды "Получить прогноз"
 @dp.message_handler(Text(equals='Получить прогноз'))
 async def get_forecast(message: types.Message):
-    prompt = "Дай мне прогноз судьбы"
+    prompt = "Дай мне прогноз судьбы согласно бацзы нумерологии, я родился 26.06.1992 года в 19 часов "
     response = generate_response_from_openai(prompt)
     await message.answer(f'Привет {message.from_user.full_name}! \n'
                          f'Лови свой прогноз!\n{response}')
